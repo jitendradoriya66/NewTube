@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Uploaded Videos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Montserrat", sans-serif;
+            background-color: black;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        h1 {
+            color: red;
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+        }
+
+        /* Go Back Button */
+        .go-back-button {
+            display: inline-block;
+            background-color: red;
+            color: white;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .go-back-button:hover {
+            background-color: white;
+            color: red;
+            transform: scale(1.05);
+        }
+
+        /* Video Container */
+        .video-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .video-card {
+            width:275px;
+            background-color: #111;
+            border-radius: 12px;
+            border: 2px dashed red;
+            box-shadow: 0 0 12px rgba(255, 0, 0, 0.5);
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            text-align: center;
+        }
+
+        /* Thumbnails */
+        .video-thumbnail {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 1px solid #ddd;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .video-thumbnail:hover {
+            opacity: 0.8;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 0, 0.7);
+        }
+
+        video {
+            width: 100%;
+            border-radius: 8px;
+            max-height: 200px;
+            object-fit: cover;
+        }
+
+        .video-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: red;
+            margin: 10px 0;
+        }
+
+        .video-info {
+            font-size: 14px;
+            color: white;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .video-container {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+
+            .video-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Your Uploaded Videos</h1>
+    <a href="{% url 'profile' %}" class="go-back-button">← Go Back</a>
+
+    <div class="video-container">
+        {% for v in videos %}
+        <div class="video-card">
+            <!-- Clicking on thumbnail goes to video details page -->
+            <a href="{% url 'video_details' v.id %}">
+                <img src="{{ v.thumbnail }}" alt="{{ v.title }}" class="video-thumbnail">
+            </a>
+            <div class="video-title">{{ v.title }}</div>
+            <div class="video-info">{{ v.description }}</div>
+            <div class="video-info">Uploaded at: {{ v.uploaded_at }}</div>
+            <a href="{% url 'edit_video' v.id %}" style="margin-top:3%;font-weight: bold;color:white;background-color: #111;"> Update</a>
+            <a href="{% url 'delete_video' v.id %}"   style="margin-top:3%;font-weight: bold;color:white;background-color: #111;">Delete</a>
+        </div>
+        {% empty %}
+        <p>No videos uploaded yet.</p>
+        {% endfor %}
+    </div>
+
+</body>
+
+</html>

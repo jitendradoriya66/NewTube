@@ -1,0 +1,694 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        /* General layout and spacing */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #0f0f0f;
+            color: #fff;
+            padding: 40px;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: #212121;
+            color: #fff;
+            padding: 2rem;
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            border-bottom: 4px solid #ff0000;
+            margin-bottom: 2rem;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 1rem 2rem;
+            margin-bottom: 2rem;
+            border-radius: 8px;
+        }
+
+        .navbar a {
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        /* Video container */
+        .video-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: #181818;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.7);
+        }
+
+        video {
+            width: 100%;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        /* User info and subscribe section */
+        .user-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #282828;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .user-details h2 {
+            font-size: 1.8rem;
+            color: #fff;
+        }
+
+        .user-details p {
+            font-size: 1rem;
+            color: #aaa;
+            margin-top: 0.3rem;
+        }
+
+        .subscribe-btn {
+            background: #ff0000;
+            color: #fff;
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: background 0.3s ease;
+        }
+
+        .subscribe-btn:hover {
+            background: #cc0000;
+        }
+
+        /* Video info */
+        .video-info h3 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 1rem;
+        }
+
+        .video-info p {
+            font-size: 1.1rem;
+            color: #bbb;
+        }
+
+        /* Like/Dislike */
+        .likedislike {
+            margin-top: 1.5rem;
+        }
+
+        .likedislike a {
+            font-size: 1.5rem;
+            color: #fff;
+            margin-right: 1rem;
+            text-decoration: none;
+        }
+
+        .likedislike i {
+            margin-right: 0.5rem;
+        }
+
+        /* Comments section */
+        #commentContainer {
+            background: #282828;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-top: 2rem;
+            max-height: 120px;
+            overflow: hidden;
+        }
+
+        #commentContainer p {
+            margin-bottom: 1rem;
+            color: #ddd;
+        }
+
+        #viewMoreBtn,
+        #viewLessBtn {
+            background: #333;
+            color: #fff;
+            padding: 0.7rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 1rem;
+            font-weight: bold;
+        }
+
+        #viewMoreBtn:hover,
+        #viewLessBtn:hover {
+            background: #444;
+        }
+
+        /* Footer */
+        footer {
+            background: #212121;
+            color: white;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 3rem;
+            border-radius: 8px;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .user-info {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .video-info h3 {
+                font-size: 1.5rem;
+            }
+
+            .navbar a {
+                font-size: 0.6rem;
+                /* justify-content: space-evenly; */
+                gap:10px;
+            }
+        }
+
+        /* Subscribe button with press animation */
+        button {
+            background: #ff0000;
+            border: none;
+            border-radius: 8px;
+            padding: 0.8rem 2rem;
+            font-size: 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s ease, background 0.3s ease;
+        }
+
+        button a {
+            text-decoration: none;
+            color: white;
+        }
+
+        button:active {
+            transform: scale(0.95);
+            background: #cc0000;
+        }
+
+        /* Comment form styling */
+        form {
+            background: #282828;
+            padding: 2rem;
+            border-radius: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 500px;
+            margin: 2rem auto;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        form input[type="text"] {
+            padding: 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            background: #333;
+            color: #fff;
+            outline: none;
+        }
+
+        form input[type="submit"] {
+            background: #ff0000;
+            color: white;
+            border: none;
+            padding: 1rem;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        form input[type="submit"]:hover {
+            background: #cc0000;
+        }
+
+        form input[type="submit"]:active {
+            transform: scale(0.95);
+        }
+
+        /* Comment container styling */
+        #commentContainer {
+            max-height: 100px;
+            overflow: hidden;
+            padding: 1rem;
+            background: #1e1e1e;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.6);
+            color: #fff;
+            font-family: Arial, sans-serif;
+        }
+
+        /* Username styling */
+        #commentContainer p strong {
+            font-size: 1.1rem;
+            color: #ff0000;
+            /* YouTube red for usernames */
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Comment content styling */
+        #commentContainer p {
+            font-size: 1rem;
+            color: #ccc;
+            margin-bottom: 1rem;
+            padding-left: 1rem;
+            border-left: 3px solid #ff0000;
+            /* subtle border for separation */
+        }
+
+        /* Smooth transition for comment height */
+        #commentContainer p:last-child {
+            margin-bottom: 0;
+        }
+
+        .like-button {
+            color: #ccc;
+            /* empty like (default) */
+            cursor: pointer;
+            font-weight: normal;
+            transition: color 0.3s ease, transform 0.2s ease;
+        }
+
+        .like-button:hover {
+            color: #999;
+            /* slight change on hover */
+            transform: scale(1.1);
+        }
+
+        .like-button.liked {
+            color: #213555;
+            /* filled like */
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .video-container {
+                padding: 15px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 8px 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .video-container {
+                max-width: 100%;
+            }
+
+            video {
+                border-radius: 0;
+                /* Remove rounded corners for full-screen feel */
+            }
+
+            button {
+                font-size: 12px;
+                padding: 8px 10px;
+            }
+
+            .box {
+                /* max-width: 100; */
+                display: flex;
+                flex-direction: column;
+                /* margin: 8% 0; */
+            }
+
+            .box img {
+                width: 50%;
+                /* height: */
+                /* border-radius: 50%; */
+                /* height: fit-content; */
+            }
+        }
+
+        /* Base styles */
+        .box {
+            max-width: 100%;
+            display: flex;
+            flex-direction: row;
+            margin: 8% 0;
+        }
+
+        .box img {
+            width: 10%;
+            border-radius: 50%;
+            height: auto;
+            /* Better than fit-content for images */
+        }
+
+        /* Media Queries */
+
+        /* Small screens (phones) */
+        @media (max-width: 600px) {
+            .box {
+                flex-direction: column;
+                /* Stack items vertically */
+                align-items: center;
+            }
+
+            .box img {
+                width: 50%;
+                /* Make images larger for better visibility */
+            }
+        }
+
+        /* Medium screens (tablets) */
+        @media (min-width: 601px) and (max-width: 900px) {
+            .box {
+                flex-direction: row;
+                justify-content: center;
+            }
+
+            .box img {
+                width: 20%;
+            }
+        }
+
+        /* Large screens (laptops and desktops) */
+        @media (min-width: 901px) {
+            .box {
+                justify-content: space-between;
+            }
+
+            .box img {
+                width: 10%;
+            }
+        }
+
+        /* Base styles for the video container */
+        .video-container {
+            padding: 20px;
+            background-color: #f9f9f9;
+            font-family: Arial, sans-serif;
+            color: #333;
+        }
+
+        /* Video player styling */
+        .video-player {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Video info section */
+        .video-info {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            margin-top: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .video-info h3 {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .video-info p {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        /* Like and dislike button */
+        .likedislike {
+            display: flex;
+            justify-content: start;
+            gap: 20px;
+            margin: 10px 0;
+        }
+
+        .likedislike a {
+            text-decoration: none;
+            color: #555;
+            font-size: 1.2rem;
+        }
+
+        .likedislike i {
+            margin-right: 5px;
+            color: #cc0000;
+        }
+
+        /* Channel box styling */
+        .box {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            margin: 15px 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .dp {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #ddd;
+        }
+
+        .box h2 {
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .box button {
+            padding: 8px 20px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            color: white;
+            background-color: #cc0000;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        .box button a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .box button:hover {
+            background-color: #990000;
+        }
+
+        /* Comments section */
+        h2 {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+
+        #commentContainer {
+            background: #fff;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            max-height: 100px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #commentContainer p {
+            margin: 5px 0;
+            font-size: 1rem;
+            color: #555;
+        }
+
+        button {
+            padding: 10px 15px;
+            font-size: 1rem;
+            font-weight: bold;
+            color: white;
+            background-color: #cc0000;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #990000;
+        }
+
+        /* Media query for mobile screens */
+        @media (max-width: 768px) {
+            .video-container {
+                padding: 15px;
+            }
+
+            .video-player {
+                height: auto;
+            }
+
+            .video-info h3 {
+                font-size: 1.2rem;
+            }
+
+            .video-info p {
+                font-size: 0.9rem;
+            }
+
+            .likedislike a {
+                font-size: 1rem;
+            }
+
+            .box {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+
+            .box h2 {
+                font-size: 1.1rem;
+            }
+
+            .box button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+
+            #commentContainer p {
+                font-size: 0.9rem;
+            }
+
+            button {
+                font-size: 0.9rem;
+                padding: 8px 16px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>NewTube</header>
+    <nav class="navbar" >
+        <a href="/" >Home</a>
+        <a href="{% url 'profile' %}">Profile</a>
+        <a href="{% url 'show_watch_letter' %}">Your Watch latter</a>
+
+    </nav>
+    <section class="video-container">
+        <video class="video-player" controls autoplay>
+            <source src="{{ v.file.url }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        <p>Total View : {{v.view}}</p>
+        <div class="likedislike">
+            <a href="{% url 'like_video' v.id %}">
+                {% if l %}
+                    <i class="fa-solid fa-thumbs-up" style="color: red;">{{ v.like }}</i>
+                {% else %}
+                    <i class="fa-solid fa-thumbs-up" style="color: black;">{{ v.like }}</i>
+                {% endif %}
+            </a>
+            
+        </div>
+        <div class="box" style="display: flex;justify-content: space-between;max-width: 100%;">
+            <!-- <div class="dp"> -->
+            <img class="dp" src="{{v.user.photo.url}}" alt="dp">
+
+            <!-- </div> -->
+            <!-- <div> -->
+            <h2>{{v.user}}</h2>
+            <h2>Subscriber : {{b}}</h2>
+            <!-- </div> -->
+            <!-- <div> -->
+            <!-- <button><a href="{% url 'subscriber_channle' v.id %}">SUBSCRIBE</a></button> -->
+            {% if j %}
+           <a href="{% url 'subscriber_channle' v.id %}"
+                    style="color:red;background-color: white;"> <button style="color:red;background-color: white;border:2px solid black">UNSUBSCRIBE</button></a>
+            {%else%}
+            <a href="{% url 'subscriber_channle' v.id %}"><button>SUBSCRIBE</button></a>
+            {% endif %}
+            <!-- </div> -->
+        </div>
+
+        <div class="video-info">
+            <!-- <a href="{% url 'video_details' v.id %}">{{ v.title }}</a> -->
+            <h3 style="color:black">{{v.title}}</h3>
+            <h4>- Description</h4>
+            <p>{{ v.description }}</p>
+
+        </div>
+
+        <h2>Comments on this post</h2>
+        <div>
+            <form action="" method="POST">
+                {% csrf_token %}
+               <span style="color:white"> Comment </span><input type="text" name="comment">
+                <input type="submit">
+            </form>
+            <div>
+                <!-- Comment container with initial height -->
+                <div id="commentContainer" style="max-height: 100px; overflow: hidden;">
+                    {% for i in c %}
+                    <p><strong>{{ i.user }}</strong></p>
+                    <p>{{ i.content }}</p>
+                    {% endfor %}
+                </div>
+
+                <!-- Buttons for toggling comments -->
+                <button id="viewMoreBtn" onclick="toggleComments()">View More</button>
+                <button id="viewLessBtn" onclick="toggleComments()" style="display: none;">View Less</button>
+            </div>
+
+            <script>
+                function toggleComments() {
+                    const container = document.getElementById('commentContainer');
+                    const viewMoreBtn = document.getElementById('viewMoreBtn');
+                    const viewLessBtn = document.getElementById('viewLessBtn');
+
+                    if (container.style.maxHeight === "100px") {
+                        container.style.maxHeight = "none"; // Show all comments
+                        viewMoreBtn.style.display = "none";
+                        viewLessBtn.style.display = "block";
+                    } else {
+                        container.style.maxHeight = "100px"; // Collapse back
+                        viewMoreBtn.style.display = "block";
+                        viewLessBtn.style.display = "none";
+                    }
+                }
+            </script>
+
+        </div>
+    </section>
+    <footer>
+        &copy; 2025 Video Streaming App. All rights reserved.
+    </footer>
+
+
+</body>
+
+</html>

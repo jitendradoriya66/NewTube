@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+
+    <title>Search Page</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: #0f0f0f;
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        /* Main Container */
+        .container {
+            background: #212121;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.6);
+            width: 100%;
+            max-width: 900px;
+        }
+
+        /* Heading */
+        h1 {
+            text-align: center;
+            color: #ff0000;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        /* Search Box */
+        .search-box {
+            display: flex;
+            gap: 10px;
+        }
+
+        input[type="text"] {
+            flex: 1;
+            padding: 1rem;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            outline: none;
+            background: #303030;
+            color: #fff;
+        }
+
+        input[type="text"]::placeholder {
+            color: #aaa;
+        }
+
+        button {
+            padding: 1rem 2rem;
+            background: #ff0000;
+            color: #fff;
+            font-size: 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease-in-out;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        button:hover {
+            background: #cc0000;
+        }
+
+        /* Search Icon */
+        button::before {
+            content: '\1F50D';
+            font-size: 1.2rem;
+        }
+
+        /* Results Section */
+        .results {
+            margin-top: 2rem;
+        }
+
+        .video-card {
+            display: flex;
+            gap: 1rem;
+            background: #303030;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+        }
+
+        .thumbnail img {
+            width: 120px;
+            height: auto;
+            border-radius: 5px;
+        }
+
+        .video-info h3 {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .video-info a {
+            display: inline-block;
+            margin-top: 0.5rem;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .video-info a:hover {
+            color: #ff0000;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .search-box {
+                flex-direction: column;
+            }
+
+            button {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .video-card {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .thumbnail img {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 1.5rem;
+            }
+
+            input[type="text"],
+            button {
+                font-size: 0.9rem;
+            }
+        }
+
+        button {
+            color: white;
+            background-color: red;
+            padding: 1% 2%;
+            margin-top: 3%;
+        }
+
+        button a {
+            text-decoration: none;
+            color: white;
+            font-weight: bold;
+        }
+        .watch-now-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: red;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 7px 20px;
+            border-radius: 5px;
+            margin-top: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .watch-now-btn i {
+            font-size: 18px;
+        }
+
+        .watch-now-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>Find What You're Looking For</h1>
+
+        <form action="{% url 'search_function' %}" class="search-box" method="POST">
+            {% csrf_token %}
+            <input type="text" name="query" placeholder="Search for videos, blogs, or anything..." required>
+
+            <button type="submit">Search</button>
+            <button><a href="{% url 'profile' %}">GO BACK</a></button>
+
+        </form>
+        <div class="results">
+            {% for i in video %}
+            <div class="video-card">
+                <div class="thumbnail">
+                    <img src="{{i.thumbnail}}" alt="Video Thumbnail">
+                </div>
+                <div class="video-info">
+                    <h3>{{i.title}}</h3>
+                    <!-- <p>{{i.description}}</p> -->
+                    <a href="{% url 'video_details' i.id %}" class="watch-now-btn">
+                        <i class="fas fa-play"></i> Watch Now
+                    </a>
+                    <!-- <div class="wl"> -->
+                     <a href="{% url 'watch_letter' i.id %}" class="watch-now-btn">
+                                <i class="fas fa-clock"></i> Watch Later
+                            </a>
+                    <!-- </div> -->
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

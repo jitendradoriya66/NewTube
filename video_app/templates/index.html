@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Clone</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #000;
+            color: white;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+            background-color: #111;
+            color: red;
+            font-size: 1.2rem;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: red;
+            padding: 1rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: black;
+        }
+
+        .container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+            justify-content: center;
+        }
+
+        .video-card {
+            background-color: #111;
+            border-radius: 10px;
+            overflow: hidden;
+            border: 1px dashed white;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+            transition: transform 0.3s;
+            width: 350px;
+            height: 450px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .video-card:hover {
+            transform: scale(1.05);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-bottom: 4px dashed white;
+        }
+
+        .video-info {
+            padding: 1rem;
+            color: white;
+        }
+
+        .video-info h3,
+        .video-info p {
+            margin: 0.5rem 0;
+        }
+
+        .video-card h4 img {
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            margin-right: 10px;
+            border: 2px solid red;
+            /* Optional: border for the profile pic */
+        }
+
+        .wl {
+            display: flex;
+            justify-content: center;
+            /* padding: 1rem; */
+        }
+
+        .wl a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-decoration: none;
+            padding: 0.20rem 1.5rem;
+            background-color: red;
+            border-radius: 5px;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        .wl a:hover {
+            background-color: black;
+            transform: translateY(-3px);
+        }
+
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            background-color: #111;
+            color: red;
+        }
+
+        /* Responsive Design */
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+                
+            }
+
+            .nav-links {
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: space-between;
+                width: 100%;
+            }
+
+            .nav-links a {
+                font-size: 1rem;
+            }
+
+            .navbar div:last-child {
+                display: flex;
+                justify-content: space-between;
+                gap: 1rem;
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .navbar {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: space-between;
+            }
+
+            .nav-links {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 0.5rem;
+                text-align: center;
+                width: 100%;
+            }
+
+            .navbar div:last-child {
+                display: flex;
+                justify-content: center;
+                gap: 1rem;
+                width: 100%;
+            }
+        }
+
+
+        @media (max-width: 320px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1.5rem;
+            }
+
+            .video-card {
+                width: 90%;
+                max-width: 280px;
+                /* Ensures it doesn’t get too small */
+                padding: 1rem;
+                margin: 0.5rem auto;
+                border-radius: 10px;
+                box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            }
+
+            nav.navbar {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                background-color: red;
+                /* padding: 1rem; */
+            }
+
+            .nav-links a {
+                margin: 0.5rem;
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 0.9rem;
+            }
+
+            nav.navbar div:last-child {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.5rem;
+                margin-top: 1rem;
+            }
+
+            nav.navbar div:last-child a {
+                margin: 0.3rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                grid-template-columns: 1fr;
+                padding: 1rem;
+            }
+
+            .video-card {
+                width: 100%;
+                max-width: 400px;
+                /* Ensures the card doesn’t stretch too much */
+                padding: 1rem;
+                margin: 1rem auto;
+                border-radius: 12px;
+                box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+            }
+
+            nav.navbar {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: space-between;
+                background-color: red;
+                padding: 0.1rem;
+            }
+
+            .nav-links a {
+                margin: 0.7rem;
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+                font-size: 1rem;
+            }
+
+            nav.navbar div:last-child {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                gap: 0.7rem;
+                margin-top: 1rem;
+            }
+
+            nav.navbar div:last-child a {
+                margin: 0.4rem 0;
+            }
+        }
+
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            background: black;
+            padding: 20px;
+            border: 4px solid red;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .pagination-btn {
+            background: black;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1rem;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .pagination-btn:hover {
+            background: red;
+        }
+
+        .page-number {
+            background: black;
+            color: white;
+            padding: 10px 15px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .page-number:hover {
+            background: red;
+            color: white;
+        }
+
+        .active {
+            background: red;
+            color: white;
+        }
+
+        /* General Styles */
+        .pagination-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 12px;
+            padding: 20px;
+            background: #fff;
+            border-radius: 12px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            margin-top: 30px;
+        }
+
+        /* Page Number Styles */
+        .pagination-container a {
+            text-decoration: none;
+            padding: 12px 18px;
+            font-size: 1rem;
+            font-weight: bold;
+            border: 2px solid red;
+            border-radius: 8px;
+            color: red;
+            background: #fff5f7;
+            transition: all 0.3s ease-in-out;
+        }
+
+        /* Hover and Active States */
+        .pagination-container a:hover {
+            background: red;
+            color: white;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 77, 109, 0.5);
+        }
+
+        .pagination-container a#pageNumbers {
+            background: red;
+            color: white;
+            font-weight: bold;
+        }
+
+        /* Disabled Buttons */
+        .pagination-container a.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+            cursor: not-allowed;
+        }
+
+        /* Prev/Next Button Styles */
+        .pagination-btn {
+            background: red;
+            color: white;
+            font-weight: bold;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        .pagination-btn:hover {
+            background: red;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .pagination-container {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .pagination-container a,
+            .pagination-btn {
+                padding: 10px 15px;
+                font-size: 0.9rem;
+            }
+        }
+
+        .watch-now-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background-color: red;
+            color: white;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            padding: 7px 20px;
+            border-radius: 5px;
+            margin-top: 5px;
+            transition: background-color 0.3s ease;
+        }
+
+        .watch-now-btn i {
+            font-size: 18px;
+        }
+
+        .watch-now-btn:hover {
+            background-color: darkred;
+        }
+    </style>
+</head>
+
+<body>
+    <header style="display: flex;">
+        <div>
+            NewTube
+        </div>
+        <div>
+            <a  href="{% url 'profile' %}" style="color:white" ><i
+                    class="fa-solid fa-user"></i></a>
+
+        </div>
+
+    </header>
+    <nav class="navbar">
+        <div class="nav-links">
+            <a  href="#">Home</a>
+            <a  href="{% url 'trending' %}">Trending</a>
+            <a  href="{% url 'category' %}">Category</a>
+            <!-- <a  href="{% url 'category' %}">Category</a> -->
+
+            <a  href="{% url 'create_video' %}"> <i class="fa-solid fa-plus"></i>
+            </a>
+
+            <a  href="{% url 'search' %}"><i class="fa-solid fa-magnifying-glass"></i></a>
+            <a  href="{% url 'logout' %}"><i class="fa fa-sign-out" aria-hidden="true"></i></a>
+        </div>
+        <div>
+        </div>
+    </nav>
+
+    <section class="container" >
+        <!-- <h1>{{msg}}</h1> -->
+        {% for i in posts %}
+            <div  class="video-card" >
+                <a  href="/video_details/{{i.id}}">
+                    <div class="thumbnail">
+                        <img src="{{i.thumbnail}}" alt="Video Thumbnail">
+
+                    </div>
+
+                </a>
+
+                <div class="video-info">
+                    <!-- <h3>Title</h3> -->
+                    <h4>{{i.title}}</h4>
+                    <p style="color:white">Uploaded at :{{i.uploaded_at.time}}</p>
+                    <!-- <p>Uploaded By</p> -->
+
+                    <span><img src="{{i.user.photo.url}}"
+                            style="width:30px;height:30px;border-radius: 50%;border:2px solid red;margin-top:3%;margin-right:4%;"
+                            alt=""></span><span
+                        style="font-family: Arial, Helvetica, sans-serif;font-size: larger;">{{i.user.username}}</span>
+                    <p>Total Views : {{i.view}}</p>
+                </div>
+                <a  href="{% url 'video_details' i.id %}" class="watch-now-btn">
+                    <i class="fas fa-play"></i> Watch Now
+                </a>
+                <!-- <div class="wl"> -->
+                <a  href="{% url 'watch_letter' i.id %}" class="watch-now-btn">
+                    <i class="fas fa-clock"></i> Watch Later
+                </a>
+                <!-- </div> -->
+            </div>
+        {% endfor %}
+
+
+    </section>
+    <div class="pagination-container">
+        <!-- Previous Button -->
+        {% if posts.has_previous %}
+        <a  href="?page={{ posts.previous_page_number }}" class="pagination-btn" id="prevBtn">Prev</a>
+        {% else %}
+        <a class="pagination-btn disabled" id="prevBtn">Prev</a>
+        {% endif %}
+
+        <!-- Page Numbers -->
+        {% for i in posts.paginator.page_range %}
+        {% if i == posts.number %}
+        <a  href="?page={{ i }}" id="pageNumbers">{{ i }}</a>
+        {% else %}
+        <a  href="?page={{ i }}">{{ i }}</a>
+        {% endif %}
+        {% endfor %}
+
+        <!-- Next Button -->
+        {% if posts.has_next %}
+        <a  href="?page={{ posts.next_page_number }}" class="pagination-btn" id="nextBtn">Next</a>
+        {% else %}
+        <a class="pagination-btn disabled" id="nextBtn">Next</a>
+        {% endif %}
+    </div>
+
+    <footer>
+        &copy; 2025 New Tube. All rights reserved.
+    </footer>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+
+</body>
+
+</html>

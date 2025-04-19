@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch Later Videos</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<style>
+    /* General Styles */
+    /* General Styles */
+    body {
+        font-family: 'Arial', sans-serif;
+        background-color: #fff;
+        color: #333;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* Header */
+    header {
+        background-color: #ff0000;
+        color: #fff;
+        padding: 20px 0;
+        text-align: center;
+        width: 100%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    header h1 {
+        margin: 0;
+        font-size: 2.5rem;
+        font-weight: bold;
+    }
+
+    /* Video Container */
+    .video-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 20px;
+        padding: 40px 20px;
+        max-width: 1200px;
+        /* width: 100%; */
+    }
+
+    /* Video Card */
+    .video-card {
+        background: #fff;
+        border: none;
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .video-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Video Thumbnail */
+    .video-card img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+        display: block;
+    }
+
+    /* Video Title */
+    .video-card h3 {
+        padding: 15px;
+        font-size: 1.4rem;
+        color: #333;
+        margin: 0;
+    }
+
+    /* Video Description */
+    .video-card p {
+        padding: 0 15px 15px;
+        font-size: 1rem;
+        color: #666;
+        margin: 0;
+    }
+
+    /* Watch Button */
+    .watch-btn {
+        display: block;
+        background-color: #ff0000;
+        color: #fff;
+        text-align: center;
+        padding: 12px;
+        font-size: 1rem;
+        text-decoration: none;
+        font-weight: bold;
+        border-bottom-left-radius: 12px;
+        border-bottom-right-radius: 12px;
+        transition: background 0.3s ease;
+    }
+
+    .home-container {
+        display: none;
+    }
+
+    .watch-btn:hover {
+        background-color: #cc0000;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+        .video-container {
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        }
+    }
+
+    @media (max-width: 768px) {
+        .video-container {
+            grid-template-columns: 1fr;
+        }
+
+        header h1 {
+            font-size: 2rem;
+        }
+
+        .video-card img {
+            height: 180px;
+        }
+
+
+    }
+
+    button {
+        color: white;
+        background-color: red;
+        padding: 1% 2%;
+        margin-top: 3%;
+    }
+
+    button a {
+        text-decoration: none;
+        color: white;
+        font-weight: bold;
+    }
+
+    a i.fa-trash {
+        font-size: 1.2rem;
+        /* Adjust icon size */
+        color: #ff4d4d;
+        /* Red color for delete action */
+        transition: color 0.3s ease, transform 0.2s ease;
+    }
+
+    a:hover i.fa-trash {
+        color: #cc0000;
+        /* Darker red on hover */
+        transform: scale(1.2);
+        /* Slight zoom effect */
+    }
+
+    a {
+        text-decoration: none;
+        /* Remove underline */
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px;
+        border-radius: 5px;
+    }
+</style>
+
+<body>
+    <header>
+        <h1>Watch Later </h1>
+
+    </header>
+    <button><a href="{% url 'profile' %}">GO BACK</a></button>
+    <main class="video-container">
+        {% for video in wl %}
+        <div class="video-card">
+            <img src="{{ video.thumbnail.url }}" alt="Video Thumbnail">
+            <h3>{{ video.title }}</h3>
+            <p>{{ video.description }}</p>
+            <a href="{% url 'delete_watchlatter' video.id%}" style="margin-left: 0.6rem;margin-bottom: 0.3rem;"><i class="fa-solid fa-trash"></i></a>
+
+            <a href="{% url 'video_details' video.id %}" class="watch-btn">Watch Now</a>
+
+        </div>
+        {% empty %}
+        <p>No videos yet.</p>  
+        {% endfor %}
+        <div class="home-container">
+            <a href="{% url 'index' %}" class="home-btn">HOME</a>
+        </div>
+    </main>
+</body>
+
+</html>

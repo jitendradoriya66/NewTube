@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trending Page</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+        integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<style>
+    /* General Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        /* font-family: 'Poppins', sans-serif; */
+        background-color: white;
+        color: #fff;
+        padding: 0 1rem;
+        font-family: "Montserrat", sans-serif;
+        font-optical-sizing: auto;
+
+    }
+
+    /* Navbar */
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: red;
+        padding: 1.2rem 2rem;
+    }
+
+    .navbar .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: white;
+    }
+
+    .navbar .nav-links {
+        display: flex;
+        list-style: none;
+        gap: 1rem;
+    }
+
+    .navbar a {
+        text-decoration: none;
+        color: white;
+        font-weight: 600;
+        font-size: 1.1rem;
+        transition: color 0.3s ease;
+    }
+
+    .navbar a:hover {
+        color: #fff;
+    }
+
+    /* Trending Section */
+    .trending {
+        margin: 2rem 0;
+        text-align: center;
+    }
+
+    .trending-title {
+        font-size: 2.5rem;
+        font-weight: bold;
+        color: red;
+        margin-bottom: 2rem;
+    }
+
+    .trending-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 5%;
+    }
+
+    .video-card {
+        background-color: #111;
+        border-radius: 10px;
+        overflow: hidden;
+        border: 1px dashed white;
+        box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+        transition: transform 0.3s;
+        width: 350px;
+        height: 450px;
+        margin: auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .video-card:hover {
+        transform: scale(1.05);
+    }
+
+    .thumbnail img {
+        width: 100%;
+        height: 180px;
+        object-fit: cover;
+        border-bottom: 4px dashed white;
+    }
+
+    .video-info {
+        padding: 1rem;
+        color: white;
+    }
+
+    .video-info h3,
+    .video-info p {
+        margin: 0.5rem 0;
+    }
+
+    .video-card h4 img {
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        margin-right: 10px;
+        border: 2px solid red;
+        /* Optional: border for the profile pic */
+    }
+
+    .wl {
+        display: flex;
+        justify-content: center;
+        padding: 1rem;
+    }
+
+    .wl a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        text-decoration: none;
+        padding: 0.20rem 1.5rem;
+        background-color: red;
+        border-radius: 5px;
+        font-size: 1rem;
+        font-weight: bold;
+        transition: background-color 0.3s, transform 0.2s;
+    }
+
+    .wl a:hover {
+        background-color: black;
+        transform: translateY(-3px);
+    }
+
+    @media (max-width: 768px) {
+        .video-card {
+            max-width: 100%;
+            margin-bottom: 1.5rem;
+        }
+
+        .thumbnail img {
+            height: 250px;
+        }
+
+        .video-info h3 {
+            font-size: 1.2rem;
+        }
+
+        .video-info p {
+            font-size: 0.7rem;
+        }
+    }
+
+    /* Footer */
+    footer {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        left: 0;
+        background-color: red;
+        color: white;
+        text-align: center;
+        padding: 0.5rem;
+        margin-top: 2rem;
+        font-weight: bold;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .trending-container {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 320px) {
+        .container {
+            grid-template-columns: 1fr;
+            padding: 0.5rem;
+        }
+
+        .video-card {
+            width: 90%;
+            max-width: 280px;
+            /* Ensures it doesn’t get too small */
+            padding: 1rem;
+            margin: 0.5rem auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        nav.navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            background-color: red;
+            padding: 1rem;
+        }
+
+        .nav-links a {
+            margin: 0.5rem;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        nav.navbar div:last-child {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        nav.navbar div:last-child a {
+            margin: 0.3rem 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .container {
+            grid-template-columns: 1fr;
+            padding: 1rem;
+        }
+
+        .video-card {
+            width: 100%;
+            max-width: 400px;
+            /* Ensures the card doesn’t stretch too much */
+            padding: 1.2rem;
+            margin: 1rem auto;
+            border-radius: 12px;
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        nav.navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            background-color: red;
+            padding: 1.2rem;
+        }
+
+        .nav-links a {
+            margin: 0.7rem;
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+
+        nav.navbar div:last-child {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.7rem;
+            margin-top: 1rem;
+        }
+
+        nav.navbar div:last-child a {
+            margin: 0.4rem 0;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .navbar {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .nav-links {
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .nav-links a {
+            font-size: 1rem;
+        }
+
+        .navbar div:last-child {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            width: 100%;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .navbar {
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .nav-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        .navbar div:last-child {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            width: 100%;
+        }
+    }
+</style>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="logo">New Tube</div>
+        <ul class="nav-links">
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'category' %}">Categories</a></li>
+            <li><a href="{% url 'profile' %}"><i class="fa-solid fa-user"></i></a></li>
+        </ul>
+    </nav>
+
+    <!-- Trending Section -->
+    <section class="trending">
+        <h1 class="trending-title">Trending Now</h1>
+        <div class="trending-container">
+            {% for i in video %}
+            <div class="video-card">
+                <a href="/video_details/{{i.id}}">
+                    <div class="thumbnail">
+                        <img src="{{i.thumbnail}}" alt="Video Thumbnail">
+
+                    </div>
+
+                </a>
+
+                <div class="video-info">
+                    <h3>Title</h3>
+                    <p>{{i.title}}</p>
+                    <p>Uploaded By</p>
+                    <h4><img src="{{i.user.photo.url}}">
+                        {{i.user.username}}</h4>
+                    <p>Total Views : {{i.view}}</p>
+                </div>
+
+                <div class="wl">
+                    <p><a href="{% url 'watch_letter' i.id %}" style="margin-right:5px;" class="watch-later-btn">
+                            <i class="fas fa-clock"></i> Watch Later
+                        </a></p>
+                        <a href="{% url 'video_details' i.id %}" class="watch-later-btn">
+                            <i class="fas fa-play"></i> Watch Now
+                        </a>
+                </div>
+            </div>
+            {% endfor %}
+            <!-- <div class="trending-card">
+                <img src="https://via.placeholder.com/300" alt="Trending Image">
+                <h3>Trending Blog Title 2</h3>
+                <p>Explore the latest buzz in technology, fashion, and more!</p>
+            </div>
+            <div class="trending-card">
+                <img src="https://via.placeholder.com/300" alt="Trending Image">
+                <h3>Trending Blog Title 3</h3>
+                <p>Discover what's hot and happening right now.</p>
+            </div> -->
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            &copy; 2025 New Tube. All rights reserved.
+                </p>
+    </footer>
+
+</body>
+
+</html>
