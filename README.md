@@ -49,4 +49,3 @@ If you found this project helpful, feel free to:
 
 **Jitendra Doriya**  
 📧 Email: jitendra662004@gmail.com  
-📺 [YouTube Channel](www.youtube.com/@JD_CodeShorts)
