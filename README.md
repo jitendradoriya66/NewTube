@@ -5,13 +5,6 @@ This project mimics features found in popular video-sharing platforms like YouTu
 
 ---
 
-## 🎬 Demo Video
-
-
-🔗 **Watch Now:** [https://youtu.be/l7r3tkLuI3s])
-
----
-
 ## 🧠 Features
 
 - 🔐 **User Authentication**
